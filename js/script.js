@@ -18,7 +18,13 @@ FSJS project 2 - List Filter and Pagination
 ***/
 
 
+// Create a variable to store the student list item elements in the student list (Pro Tip: Log out the variable storing the list to ensure it equals the list of li items and not the container of the li elements)
 
+let student_list = ['Benny','Alexa','Paco','Romeo'];
+
+// Create a variable to store the number of items to show on each “page”, which for this project, is 10.
+
+let students_per_page = 10;
 
 /*** 
    Create the `showPage` function to hide all of the items in the 
