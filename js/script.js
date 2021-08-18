@@ -20,7 +20,7 @@ FSJS project 2 - List Filter and Pagination
 
 // Create a variable to store the student list item elements in the student list (Pro Tip: Log out the variable storing the list to ensure it equals the list of li items and not the container of the li elements)
 
-let student_list = ['Benny','Alexa','Paco','Romeo'];
+let student_list = document.querySelectorAll('.student-item');
 
 // Create a variable to store the number of items to show on each “page”, which for this project, is 10.
 
@@ -41,13 +41,67 @@ let students_per_page = 10;
        "invoke" the function 
 ***/
 
+const showPage = (list, page) => { 
+   /* 
+   Loop over items in the list parameter 
+   -- If the index of a list item is >= the index of the first item that should be shown on the page 
+  -- && the list item index is <= the index of the last item that should be shown on the page, show it 
+   */ 
+  for (let i = 0; i < student_list.length; i++) {
+    let student_page = page * students_per_page;
+    let student_list_count = page * student_page;
+    console.log('student_page: ', student_page);
+    console.log('student_list_count: ', student_list_count);
+    if (i >= student_list_count && i <= student_page) {
+      student_list[i].style.display = 'none';
+    }
+  }
+}
 
+showPage(1,2);
 
+// The first item of every list should be page index * students per page
+// The last item of every list should be 
 
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
+
+const appendPageLinks = (list) => { 
+
+  // 1. Determine how many pages are needed for the list by dividing the  total number of list items by the max number of items per page  
+    let student_pages = student_list.length / students_per_page;
+  // 2. Create a div, give it the “pagination” class, and append it to the .page div  
+    const div = document.createElement('div');
+    div.className = 'pagination';
+    document.querySelector('.page').appendChild(div);
+  // 3. Add a ul to the “pagination” div to store the pagination links  
+    const ul = document.createElement('ul');
+    div.appendChild(ul);
+  // 4. for every page, add li and a tags with the page number text 
+  for (let i = 0; i < student_pages; i++) {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.textContent = i;
+    li.appendChild(a);
+    ul.appendChild(li);
+    // 5. Add an event listener to each a tag. When they are clicked  call the showPage function to display the appropriate page 
+    a.addEventListener('click', (e) => {
+      showPage();
+      let pagingation_links = document.querySelectorAll('.pagination li a');
+      // 6. Loop over pagination links to remove active class from all links 
+      for (let i = 0; i < pagingation_links.length; i++) {
+        pagingation_links[i].classList.remove('active');
+      }
+      // 7. Add the active class to the link that was just clicked. You can identify that clicked link using event.target 
+      e.target.classList.add('active');
+    });
+  }
+
+}
+
+appendPageLinks();
 
 
 
